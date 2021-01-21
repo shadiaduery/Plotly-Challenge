@@ -35,6 +35,9 @@ function graphs(id) {
         // Create variables to hold all the data needed to create the visualizations
         var data = alldata;
 
+        var wfreq = data.metadata.map(m=>m.wfreq);
+        console.log(wfreq)
+
         var samples = data.samples.filter(sample => sample.id.toString()===id)[0];
         console.log(samples);
 
@@ -98,6 +101,28 @@ function graphs(id) {
 
         Plotly.newPlot("bubble", data1, layout);
 
+        var trace3 = [
+            {
+                domain: { x: [0, 1], y: [0, 1] },
+                value: parseFloat(wfreq),
+                title: { text: "Belly Button Washing Frequency" },
+                type: "indicator",
+                mode: "gauge+number",
+                gauge: { axis: { range: [null, 9] },
+                    steps: [
+                    { range: [0, 2], color: "cyan" },
+                    { range: [2, 4], color: "cyan" },
+                    { range: [4, 6], color: "cyan" },
+                    { range: [6, 8], color: "cyan" },
+                    { range: [8, 9], color: "cyan" },
+                    ]}
+           
+            }
+        ];
+        
+        var layout = { width: 500, height: 500, margin: { t: 20, b: 40, l:100, r:100  } };
+        Plotly.newPlot('gauge', trace3, layout);
+
         var tracePie = {
             labels: OtuIds,
             values: sampleValues,
@@ -107,7 +132,7 @@ function graphs(id) {
         var data = [tracePie]
 
 
-        Plotly.newPlot("gauge", data)
+        Plotly.newPlot("pie", data)
 
 });
 
