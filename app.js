@@ -35,8 +35,8 @@ function graphs(id) {
         // Create variables to hold all the data needed to create the visualizations
         var data = alldata;
 
-        var wfreq = data.metadata.map(m=>m.wfreq);
-        console.log(wfreq)
+        var Wfreq = data.metadata.map(m=>m.wfreq);
+        console.log(Wfreq)
 
         var samples = data.samples.filter(sample => sample.id.toString()===id)[0];
         console.log(samples);
@@ -53,8 +53,8 @@ function graphs(id) {
         console.log (OtuLabels);
 
         // Use the created variables to create the visualizations
-        // Go to the HTML to identify the name holding the visualizations ("bar", "bubble", "gauge")
-        var trace = {
+        // Go to the HTML to identify the name holding the visualizations ("bar", "bubble", "gauge", and a "pie")
+        var trace1 = {
             x: sampleValues,
             y: OtuIds1,
             text: OtuLabels,
@@ -62,9 +62,9 @@ function graphs(id) {
             orientation: "h",
         };   
 
-        var data = [trace];
+        var data1 = [trace1];
         
-        var layout = {
+        var layout1 = {
             title: "Top 10 OTU",
             yaxis: {
                 tickmode: "linear",
@@ -77,9 +77,9 @@ function graphs(id) {
             }
         };
 
-        Plotly.newPlot("bar", data, layout);
+        Plotly.newPlot("bar", data1, layout1);
     
-        var trace1 = {
+        var trace2 = {
             x: samples.otu_ids,
             y: samples.sample_values,
             mode: "markers",
@@ -91,21 +91,21 @@ function graphs(id) {
 
         };
 
-        var layout = {
+        var layout2 = {
             xaxis: { title: "OTU ID" },
             height: 500,
             width: 1250
         };
 
-        var data1 = [trace1];
+        var data2 = [trace2];
 
-        Plotly.newPlot("bubble", data1, layout);
+        Plotly.newPlot("bubble", data2, layout2);
 
         var trace3 = [
             {
                 domain: { x: [0, 1], y: [0, 1] },
-                value: parseFloat(wfreq),
-                title: { text: "Belly Button Washing Frequency" },
+                value: parseFloat(Wfreq),
+                title: { text: "Belly Button Washing Frequency <br> Scrubs per Week" },
                 type: "indicator",
                 mode: "gauge+number",
                 gauge: { axis: { range: [null, 9] },
@@ -114,25 +114,25 @@ function graphs(id) {
                     { range: [2, 4], color: "cyan" },
                     { range: [4, 6], color: "cyan" },
                     { range: [6, 8], color: "cyan" },
-                    { range: [8, 9], color: "cyan" },
+                    { range: [8, 10], color: "cyan" },
                     ]}
            
             }
         ];
         
-        var layout = { width: 500, height: 500, margin: { t: 20, b: 40, l:100, r:100  } };
-        Plotly.newPlot('gauge', trace3, layout);
+        var layout3 = { width: 500, height: 500, margin: { t: 20, b: 40, l:100, r:100  } };
+        Plotly.newPlot('gauge', trace3, layout3);
 
-        var tracePie = {
+        var trace4 = {
             labels: OtuIds,
             values: sampleValues,
             type: "pie",
         }
 
-        var data = [tracePie]
+        var data4 = [trace4]
 
 
-        Plotly.newPlot("pie", data)
+        Plotly.newPlot("pie", data4)
 
 });
 
